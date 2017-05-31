@@ -14,5 +14,8 @@ node_modules/
 # Yarn Integrity file
 .yarn-integrity
 
+# Yarn.lock
+.yarn.lock
+
 # Build
 build/

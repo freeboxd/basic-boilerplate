@@ -13,6 +13,7 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
+var gulpif = require('gulp-if');
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -21,10 +22,10 @@ var srcPaths = {
 	css: 'src/css/**/*',
 	styl: 'src/styl/style.styl',
 	js: 'src/js/**/*.js',
-	// vendors: [
-	// 'node_modules/jquery/dist/jquery.min.js',
+	vendors: [
+	'node_modules/jquery/dist/jquery.min.js',
 	// 'node_modules/fullpage.js/dist/jquery.fullpage.min.js'
-	// ]
+	]
 };
 
 var buildPaths = {
@@ -58,7 +59,7 @@ gulp.task('css', function() {
 	.pipe(plumber())
 	.pipe(stylus({ 'include css': true, use: jeet }))
 	.pipe(concat('styles.css'))
-	.pipe(autoprefixer())
+	// .pipe(autoprefixer())
 	.pipe(cleanCSS({ compatibility: 'ie8' }))
 	.pipe(gulp.dest(buildPaths.css));
 });
@@ -84,7 +85,7 @@ gulp.task('js', function() {
 gulp.task('server', function() {
 	browserSync.init({
     server: {
-      baseDir: "./build/",
+      baseDir: "./build",
       online: true
       }
   });
@@ -101,5 +102,5 @@ gulp.task('watch', function(){
 	gulp.watch(srcPaths.js, ['js']);
 });
 
-gulp.task('build', ['html', 'css', 'vendors', 'js']);
-gulp.task('default', ['html', 'css', 'vendors', 'js', 'server']);
+gulp.task('build', ['html', 'css', 'vendor', 'js']);
+gulp.task('default', ['html', 'css', 'vendor', 'js', 'server']);
